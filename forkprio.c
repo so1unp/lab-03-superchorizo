@@ -18,10 +18,13 @@ int busywork(void)
 
 void sigterm_handler(int sig)
 {
+    (void)sig; // evitar warning por parámetro no usado
+
     struct rusage usage;
     getrusage(RUSAGE_SELF, &usage);
     int prio = getpriority(PRIO_PROCESS, 0);
-    printf("Child %d (nice %2d):\t%ld.%06ld\n", getpid(), prio, usage.ru_utime.tv_sec, usage.ru_utime.tv_usec);
+    printf("Child %d (nice %2d):\t%ld.%06ld\n", getpid(), prio,
+           usage.ru_utime.tv_sec, usage.ru_utime.tv_usec);
     exit(EXIT_SUCCESS);
 }
 
@@ -43,7 +46,7 @@ int main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
 
-    pid_t *children = malloc(sizeof(pid_t) * n);
+    pid_t *children = malloc(sizeof(pid_t) * (size_t)n);
     if (children == NULL)
     {
         perror("malloc");
@@ -82,7 +85,7 @@ int main(int argc, char *argv[])
 
     if (secs > 0)
     {
-        sleep(secs);
+        sleep((unsigned int)secs);
         for (int i = 0; i < n; i++)
         {
             kill(children[i], SIGTERM);
