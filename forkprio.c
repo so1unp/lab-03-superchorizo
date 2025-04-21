@@ -18,7 +18,7 @@ int busywork(void)
 
 void sigterm_handler(int sig)
 {
-    (void)sig; // evitar warning por parámetro no usado
+    (void)sig; 
 
     struct rusage usage;
     getrusage(RUSAGE_SELF, &usage);
