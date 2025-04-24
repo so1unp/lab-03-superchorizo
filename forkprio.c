@@ -22,6 +22,31 @@ int main(int argc, char *argv[])
     int segs = atoi(argv[2]);        //segundos
     int prio = atoi(argv[3]);        //activar prioridad
 
+    if (hijos <= 0)
+    {
+        fprintf(stderr, "Número de procesos inválido.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    for (int i = 0; i < hijos; i++)
+    { 
+
+        pid_t pid = fork();
+
+        if (pid == 0) {       
+            printf("Soy el hijo %d, PID: %d\n", i, getpid());
+            
+            
+            exit(EXIT_SUCCESS);
+        }
+        while (1)
+        {
+            pause();
+        }
+        
+    }
+
+
 
     exit(EXIT_SUCCESS);
 }
