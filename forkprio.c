@@ -23,6 +23,7 @@ int busywork(void)
 // Handler para los hijos
 void terminar(int sig)
 {
+    (void)sig;
     struct rusage ru;
     getrusage(RUSAGE_SELF, &ru);
     int prio = getpriority(PRIO_PROCESS, 0);
@@ -49,7 +50,7 @@ int main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
 
-    pid_t *pids = malloc(sizeof(pid_t) * hijos);
+    pid_t *pids = malloc(sizeof(pid_t) * (size_t)hijos);
     if (!pids)
     {
         perror("malloc");
@@ -98,7 +99,7 @@ int main(int argc, char *argv[])
     }
     else
     {
-        sleep(segs);
+        sleep((unsigned int)segs);
     }
 
     // Terminar hijos
