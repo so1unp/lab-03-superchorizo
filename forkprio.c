@@ -19,7 +19,6 @@ int busywork(void)
         times(&buf);
     }
 }
-
 // Handler para los hijos
 void terminar(int sig)
 {
@@ -27,7 +26,7 @@ void terminar(int sig)
     struct rusage ru;
     getrusage(RUSAGE_SELF, &ru);
     int prio = getpriority(PRIO_PROCESS, 0);
-    printf("Child %d (nice %2d):\t%3li\n", getpid(), prio, ru.ru_utime.tv_sec);
+    printf("Child %d (nice %2d):\t%3li\n", getpid(), prio, ru.ru_utime.tv_sec + ru.ru_stime.tv_sec);
     fflush(stdout);
     exit(EXIT_SUCCESS);
 }
@@ -56,7 +55,7 @@ int main(int argc, char *argv[])
         perror("malloc");
         exit(EXIT_FAILURE);
     }
-
+int i;
     for (int i = 0; i < hijos; i++)
     {
         pid_t pid = fork();
@@ -107,7 +106,6 @@ int main(int argc, char *argv[])
     {
         kill(pids[i], SIGTERM);
     }
-
     // Esperar a que todos los hijos terminen
     for (int i = 0; i < hijos; i++)
     {
@@ -115,5 +113,5 @@ int main(int argc, char *argv[])
     }
 
     free(pids);
-    return 0;
+    return EXIT_SUCCESS;
 }

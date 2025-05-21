@@ -20,7 +20,7 @@ int main() {
         sigaction(i, &sa, NULL); 
     }
 
-    printf("PID: %d\n", getpid()); //esto muestra el PID cuando ejecutamos sin poner ningun caracter.
+   printf("PID: %d\n", getpid()); //esto muestra el PID cuando ejecutamos sin poner ningun caracter.
 
     while (1) {
         pause();
